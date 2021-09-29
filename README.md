@@ -41,6 +41,8 @@ Application exposes a number of endpoints. For better experience please use API 
 * DELETE a document by using DELETE method on `http://localhost:8080/documents/{id}`
 * UPDATE a document with PUT method `http://localhost:8080/documents/{id}` with path parameter of document to be changed along with the json body of the changes to make.
 
+Examples of the data to play with can be found in the `data.json` file.
+
 ## Docker
 
 This was my try to containarise the app. The docker container is created and application inside is working however for some reason the port of the container cannot be forwarded to local host. Any ideas are welcomed.
