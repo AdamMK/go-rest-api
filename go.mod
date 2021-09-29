@@ -1,4 +1,4 @@
-module github.com/AdamMK
+module github.com/AdamMK/gorest
 
 go 1.17
 
