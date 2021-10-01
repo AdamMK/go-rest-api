@@ -2,6 +2,8 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
+	"github.com/google/uuid"
 	"github.com/gorilla/mux"
 	"github.com/stretchr/testify/assert"
 	"net/http"
@@ -17,6 +19,13 @@ func ForTestServer() *Server {
 	}
 	s.requests()
 	return s
+}
+
+func (s *Server) add() []Doc{
+	id, _ := uuid.Parse("25f2d428-0670-4edd-8a4d-df3e0595d716")
+	var d = Doc{ id, "Sell", Content{"Car", "Volvo"}, "Adam" }
+	newS := append(s.Documents, d)
+	return newS
 }
 
 
@@ -48,12 +57,18 @@ func TestCreateDocument(t *testing.T) {
 
 func TestFindDocument(t *testing.T) {
 
-	var d Doc
+	id, _ := uuid.Parse("25f2d428-0670-4edd-8a4d-df3e0595d716")
+	var d = Doc{ id, "Sell", Content{"Car", "Volvo"}, "Adam" }
+	x := append(ForTestServer().Documents, d)
+
+
+	fmt.Println(x)
 
 	request, _ := http.NewRequest("GET", "/documents/25f2d428-0670-4edd-8a4d-df3e0595d716", nil)
+	fmt.Println(ForTestServer().Documents)
 	response := httptest.NewRecorder()
 	ForTestServer().ServeHTTP(response, request)
-	json.NewEncoder(response.Body).Encode(&d)
+	json.NewEncoder(response.Body).Encode(&x)
 
 	assert.Equal(t, 404, response.Code)
 
