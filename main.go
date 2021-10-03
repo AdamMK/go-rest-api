@@ -8,7 +8,7 @@ import (
 	"syscall"
 )
 
-const ServerAddr = "localhost:8080"
+const ServerAddr = ":8282"
 
 func main() {
 
@@ -17,13 +17,13 @@ func main() {
 	//create a channel to catch exit signal
 	quitSig := make(chan os.Signal, 1)
 
-	//relay signals to quitSig channel - mainly for os.Interupt
+	//relay signals to quitSig channel - mainly for os.Interrupt
 	signal.Notify(quitSig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
 
 	//needed to create another go routine to be able to start a server
 	go func() {
 		if err := http.ListenAndServe(ServerAddr, serv); err != nil {
-			log.Fatalf("listen: %s\n", err)
+			log.Printf("Server error: %v\n", err)
 		}
 	}()
 	log.Println("Server is running on", ServerAddr)

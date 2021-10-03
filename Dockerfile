@@ -1,6 +1,9 @@
 FROM golang:latest
 
-ENV GO111MODULE=on
+ENV GO111MODULE=on \
+    CGO_ENABLED=0 \
+    GOOS=linux \
+    GOARCH=amd64
 
 
 WORKDIR /app
@@ -11,8 +14,8 @@ RUN go mod download
 
 COPY . .
 
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main .
+RUN go build -o main .
 
-EXPOSE 8080
+EXPOSE 8282
 
 CMD ["./main"]
