@@ -20,10 +20,6 @@ func (s *Server) requests() {
 func (s *Server) listDocuments() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
-		if len(s.Documents) == 0 {
-			http.Error(w, "", http.StatusNotFound)
-			return
-		}
 		if err := json.NewEncoder(w).Encode(s.Documents); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
@@ -69,7 +65,6 @@ func (s *Server) createDocument() http.HandlerFunc {
 		}
 	}
 }
-
 
 func (s *Server) deleteDocument() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
