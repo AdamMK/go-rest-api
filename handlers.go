@@ -54,6 +54,7 @@ func (s *Server) createDocument() http.HandlerFunc {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
+		defer r.Body.Close()
 
 		d.ID = uuid.New()
 		s.Documents = append(s.Documents, d)
@@ -91,6 +92,7 @@ func (s *Server) updateDocument() http.HandlerFunc {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
+		defer r.Body.Close()
 
 		idStr := mux.Vars(r)["id"]
 		id, err := uuid.Parse(idStr)
